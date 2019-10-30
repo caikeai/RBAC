@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--指定 SpringMVC 框架到哪个包去扫描 控制器类-->
+    <context:component-scan base-package="com.henleo.rbac.web.action"/>
+    <!--使用 SpringMVC 前会自动加载关键的类-->
+    <mvc:annotation-driven/>
+
+    <!--配置视图适配器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--
+            prefix:资源前缀
+            suffix:资源后缀
+
+            如: 当资源名为 success 时,则会跳转到 /WEB-INF/webapp/success.jsp
+        -->
+        <property name="prefix" value="/WEB-INF/webapp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
 
 </beans>
