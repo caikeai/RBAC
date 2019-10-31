@@ -47,5 +47,5 @@
     </bean>
 
     <!--声明事务(注解),此处同名的名称空间有多个,注意选择正确的-->
-    <!--<tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>-->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
 </beans>

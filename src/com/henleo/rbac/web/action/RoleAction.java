@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 /**
  * 角色控制类
  */
-@Controller // 该注解用于指定当前类为控制层类,该类对象由 Spring 框架自动创建 默认将类名首字母小写作为对象名 roleAction
+// @Controller // 该注解用于指定当前类为控制层类,该类对象由 Spring 框架自动创建 默认将类名首字母小写作为对象名 roleAction
 public class RoleAction {
 
     @Resource

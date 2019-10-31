@@ -9,6 +9,9 @@
     <context:component-scan base-package="com.henleo.rbac.web.action"/>
     <!--使用 SpringMVC 前会自动加载关键的类-->
     <mvc:annotation-driven/>
+    
+    <!--放行 image 图片请求-->
+    <mvc:resources mapping="/images/*" location="/WEB-INF/webapp/images/"/>
 
     <!--配置视图适配器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
