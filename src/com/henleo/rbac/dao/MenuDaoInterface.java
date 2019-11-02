@@ -1,10 +1,7 @@
 package com.henleo.rbac.dao;
 
 import com.henleo.rbac.domian.Menu;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ public interface MenuDaoInterface {
      * 增加菜单
      * @param menu
      */
-    @Insert("insert into menu(menu_name, parent_id, url) values(#{menu_name},#{parent_id},#{url})")
+    @Insert("insert into menu(menu_name, parent_id, url) values(#{menu_name},#{parent_id},#{url, jdbcType=VARCHAR})")
     void add(Menu menu);
 
     /**
@@ -24,7 +21,7 @@ public interface MenuDaoInterface {
      * @param id
      */
     @Delete("delete from menu where menu_id = #{id}")
-    void delete(int id);
+    void delete(@Param("id") int id);
 
     /**
      * 修改菜单
@@ -37,7 +34,7 @@ public interface MenuDaoInterface {
      * 查询所有菜单
      * @return 所有菜单集合
      */
-    @Select("select * form menu")
+    @Select("select * from menu")
     List<Menu> findAll();
 
     /**
@@ -45,7 +42,18 @@ public interface MenuDaoInterface {
      * @param id
      * @return 指定菜单
      */
-    @Select("select * form menu where menu_id = #{id}")
-    Menu findById(int id);
+    @Select("select * from menu where menu_id = #{id}")
+    Menu findById(@Param("id") int id);
+
+    /**
+     * 根据 parent id 查询等级菜单
+     * @param id
+     * @return
+     */
+    @Select("select * from menu where parent_id = #{id}")
+    List<Menu> findByParentId(@Param("id") int id);
+
+
+
 
 }

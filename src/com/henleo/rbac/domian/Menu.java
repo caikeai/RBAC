@@ -1,6 +1,7 @@
 package com.henleo.rbac.domian;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 菜单实体类
@@ -67,5 +68,21 @@ public class Menu implements Serializable {
                 ", parent_id=" + parent_id +
                 ", url=" + url +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return menu_id == menu.menu_id &&
+                parent_id == menu.parent_id &&
+                Objects.equals(menu_name, menu.menu_name) &&
+                Objects.equals(url, menu.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(menu_id, menu_name, parent_id, url);
     }
 }

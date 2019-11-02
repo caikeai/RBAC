@@ -1,8 +1,16 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.henleo.rbac.domian.Menu" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String contextPath = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + contextPath + "/";
+    Object obj = session.getAttribute("MENUS");
+    List<Menu> menus = new ArrayList<>();
+    if (obj != null && obj instanceof List) {
+        menus = (List<Menu>) obj;
+    }
 %>
 
 <style type="text/css">
@@ -48,54 +56,47 @@
     </tr>
     <tr>
         <td valign="top"><table width="151" border="0" align="center" cellpadding="0" cellspacing="0">
+            <%--<c:forEach items="${menus}" var="menu" varStatus="m">--%>
+                <%--${m.index}${menu}--%>
+            <%--</c:forEach>--%>
+            <%for (Menu menu: menus) {
+                if (menu.getParent_id() == 0) {
+            %>
             <tr>
                 <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td height="23" background="${basePath}images/main_47.gif" id="imgmenu1" class="menu_title" onMouseOver="this.className='menu_title2';" onClick="showsubmenu(1)" onMouseOut="this.className='menu_title';" style="cursor:hand"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <td height="23" background="${basePath}images/main_47.gif" id="imgmenu<%=menu.getMenu_id()%>" class="menu_title" onMouseOver="this.className='menu_title2';" onClick="showsubmenu(<%=menu.getMenu_id()%>)" onMouseOut="this.className='menu_title';" style="cursor:hand"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td width="18%">&nbsp;</td>
-                                <td width="82%" class="STYLE1">业务中心</td>
+                                <td width="82%" class="STYLE1"><%=menu.getMenu_name()%></td>
                             </tr>
                         </table></td>
                     </tr>
                     <tr>
-                        <td background="${basePath}images/main_51.gif" id="submenu1">
+                        <td background="${basePath}images/main_51.gif" id="submenu<%=menu.getMenu_id()%>">
                             <div class="sec_menu" >
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                         <td><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                                            <%
+                                                for (Menu m : menus) {
+                                                    if (m.getParent_id() == menu.getMenu_id()) {
+
+                                            %>
                                             <tr>
                                                 <td width="16%" height="25"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
                                                 <td width="84%" height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
                                                     <tr>
-                                                        <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">短信群发</span></td>
+                                                        <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3"><a target="I3" href="<%=basePath%><%=m.getUrl()%>"><%=m.getMenu_name()%></a></span></td>
                                                     </tr>
                                                 </table></td>
                                             </tr>
-                                            <tr>
-                                                <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                                <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                    <tr>
-                                                        <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">用户资料修改</span></td>
-                                                    </tr>
-                                                </table></td>
-                                            </tr>
-                                            <tr>
-                                                <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                                <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                    <tr>
-                                                        <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">公司信息管理</span></td>
-                                                    </tr>
-                                                </table></td>
-                                            </tr>
-                                            <tr>
-                                                <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                                <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                    <tr>
-                                                        <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">其他业务</span></td>
-                                                    </tr>
-                                                </table></td>
-                                            </tr>
+                                            <%
+                                                    }
+                                                }
+                                            %>
+
                                         </table></td>
                                     </tr>
                                     <tr>
@@ -106,122 +107,11 @@
 
                 </table></td>
             </tr>
-            <tr>
-                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td height="23" background="${basePath}images/main_47.gif" id="imgmenu2" class="menu_title" onmouseover="this.className='menu_title2';" onclick="showsubmenu(2)" onmouseout="this.className='menu_title';" style="cursor:hand"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td width="18%">&nbsp;</td>
-                                <td width="82%" class="STYLE1">系统管理</td>
-                            </tr>
-                        </table></td>
-                    </tr>
-                    <tr>
-                        <td background="${basePath}images/main_51.gif" id="submenu2"><div class="sec_menu" >
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <td width="16%" height="25"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td width="84%" height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">系统配置</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                        <tr>
-                                            <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">修改用户密码</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                        <tr>
-                                            <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">数据更新</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                        <tr>
-                                            <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">网站维护</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                    </table></td>
-                                </tr>
-                                <tr>
-                                    <td height="5"><img src="${basePath}images/main_52.gif" width="151" height="5" /></td>
-                                </tr>
-                            </table>
-                        </div></td>
-                    </tr>
-                </table>          </td>
-            </tr>
-            <tr>
-                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td height="23" background="${basePath}images/main_47.gif" id="imgmenu3" class="menu_title" onmouseover="this.className='menu_title2';" onclick="showsubmenu(3)" onmouseout="this.className='menu_title';" style="cursor:hand"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td width="18%">&nbsp;</td>
-                                <td width="82%" class="STYLE1">安全管理</td>
-                            </tr>
-                        </table></td>
-                    </tr>
-                    <tr>
-                        <td background="${basePath}images/main_51.gif" id="submenu3" style="DISPLAY: none"><div class="sec_menu" >
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <td width="16%" height="25"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td width="84%" height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">企业安全</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                        <tr>
-                                            <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">信息安全管理</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                        <tr>
-                                            <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">安全审计</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                        <tr>
-                                            <td height="23"><div align="center"><img src="${basePath}images/left.gif" width="10" height="10" /></div></td>
-                                            <td height="23"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td height="20" style="cursor:hand" onmouseover="this.style.borderStyle='solid';this.style.borderWidth='1';borderColor='#7bc4d3'; "onmouseout="this.style.borderStyle='none'"><span class="STYLE3">网站安全</span></td>
-                                                </tr>
-                                            </table></td>
-                                        </tr>
-                                    </table></td>
-                                </tr>
-                                <tr>
-                                    <td height="5"><img src="${basePath}images/main_52.gif" width="151" height="5" /></td>
-                                </tr>
-                            </table>
-                        </div></td>
-                    </tr>
-                </table></td>
-            </tr>
-        </table></td>
-    </tr>
+
+            <%
+                    }
+                }
+            %>
     <tr>
         <td height="18" background="${basePath}images/main_58.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>

@@ -6,6 +6,7 @@ import com.henleo.rbac.service.RoleServiceInterface;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 角色业务实现类
@@ -29,5 +30,10 @@ public class RoleServiceImpl implements RoleServiceInterface {
     @Override
     public void addRole(Role role) {
         roleDaoImpl.add(role);
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return roleDaoImpl.findAll();
     }
 }

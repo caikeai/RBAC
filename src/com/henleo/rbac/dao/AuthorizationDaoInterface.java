@@ -1,10 +1,8 @@
 package com.henleo.rbac.dao;
 
 import com.henleo.rbac.domian.Authorization;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
@@ -12,19 +10,6 @@ import java.util.List;
  * 权限表持久层操作接口
  */
 public interface AuthorizationDaoInterface {
-    /**
-     * 增加权限记录
-     * @param authorization
-     */
-    @Insert("insert into authorization(role_id, menu_id) values(#{authorization.role_id}, #{authorization.menu_id})")
-    void add(Authorization authorization);
-
-    /**
-     * 根据 id 删除指定的角色权限记录
-     * @param id
-     */
-    @Delete("delete from authorization where authorization_id = #{id}")
-    void delete(int id);
 
     /**
      * 修改角色权限记录
@@ -47,4 +32,41 @@ public interface AuthorizationDaoInterface {
      */
     @Select("select * from authorization where authorization_id = #{id}")
     Authorization findById(int id);
+
+    /**
+     * 根据角色 id 查询对应菜单权限
+     * @param roleId
+     * @return
+     */
+    @Select("select * from authorization where role_id = #{roleId}")
+    @Results({
+            @Result(
+                    property = "menu",
+                    column = "menu_id",
+                    one = @One(select = "com.henleo.rbac.dao.MenuDaoInterface.findById", fetchType = FetchType.EAGER)
+            ),
+
+            @Result(
+                    property = "role",
+                    column = "role_id",
+                    one = @One(select = "com.henleo.rbac.dao.RoleDaoInterface.findById", fetchType = FetchType.EAGER)
+            )
+    })
+    List<Authorization> findByRoleId(@Param("roleId") int roleId);
+
+
+    /**
+     * 根据角色 ID 删除指定的权限
+     * @param roleid
+     */
+    @Delete("delete from authorization where role_id = #{roleid}")
+    void delByRoleId(@Param("roleid") int roleid);
+
+    /**
+     * 根据两个直接插入数据
+     * @param roleid
+     * @param menuid
+     */
+    @Insert("insert into authorization(role_id, menu_id) values(#{roleid},#{menuid})")
+    void addAu(@Param("roleid") int roleid, @Param("menuid") int menuid);
 }
