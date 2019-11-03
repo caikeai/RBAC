@@ -15,23 +15,23 @@
 ### 项目结构
 ```
 |--src
-	|--com.henleo.rbac
-		|--dao				持久层接口包
-		|--domain			JavaBean类包
-		|--service			业务层接口包
-			|--impl			业务实现类包
-		|--test				测试类包
-		|--utils			工具包
-		|--web				
-			|--action		控制层包
+  |--com.henleo.rbac
+    |--dao				持久层接口包
+    |--domain			JavaBean类包
+    |--service			业务层接口包
+	  |--impl			业务实现类包
+    |--test				测试类包
+	|--utils			工具包
+	|--web				
+	  |--action			控制层包
 |--web
-	|--WEB-INF
-		|--classes
-		|--lib
-		|--webapp			静态资源
-		|--springmvc.xml	
-		|--web.xml
-|-—sources					数据库文件
+  |--WEB-INF
+	|--classes
+	|--lib
+	|--webapp			静态资源
+	|--springmvc.xml	
+	|--web.xml
+|-—sources				数据库文件
 ```
 
 ### 数据库模型
